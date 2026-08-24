@@ -10,6 +10,7 @@ public class Arrays_ {
     }
     return j;
 }
+
 public static void rotateArrayByKPlaces(int nums[],int k){
     int n = nums.length;
     k = k%n;
@@ -86,7 +87,7 @@ public static void SortArrayof012Inplace__BIG_O_2N_(int arr[]){
     for(int i = cnt0+cnt1;i<cnt0+cnt1+cnt2;i++) arr[i] = 2;
 }
 public static void SortArrayof012Inplace__Optimal(int nums[]){
-  int low = 0;
+    int low = 0;
     int mid = 0;
     int high = nums.length - 1;
 
@@ -179,13 +180,96 @@ public static int LongestCnsecutiveSequence(int nums[]){
         }
         return longest;
 }
+public static void setZeroes(int[][] matrix) {
+
+    int m = matrix.length;
+    int n = matrix[0].length;
+
+    boolean firstRow = false;
+    boolean firstCol = false;
+
+    // Check if first row contains zero
+    for (int j = 0; j < n; j++) {
+        if (matrix[0][j] == 0) {
+            firstRow = true;
+        }
+    }
+
+    // Check if first column contains zero
+    for (int i = 0; i < m; i++) {
+        if (matrix[i][0] == 0) {
+            firstCol = true;
+        }
+    }
+
+    // Use first row and first column as markers
+    for (int i = 1; i < m; i++) {
+        for (int j = 1; j < n; j++) {
+
+            if (matrix[i][j] == 0) {
+                matrix[i][0] = 0;
+                matrix[0][j] = 0;
+            }
+        }
+    }
+
+    // Set marked rows to zero
+    for (int i = 1; i < m; i++) {
+        if (matrix[i][0] == 0) {
+
+            for (int j = 1; j < n; j++) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+
+    // Set marked columns to zero
+    for (int j = 1; j < n; j++) {
+        if (matrix[0][j] == 0) {
+
+            for (int i = 1; i < m; i++) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+
+    // Finally handle first row
+    if (firstRow) {
+        for (int j = 0; j < n; j++) {
+            matrix[0][j] = 0;
+        }
+    }
+
+    // Finally handle first column
+    if (firstCol) {
+        for (int i = 0; i < m; i++) {
+            matrix[i][0] = 0;
+        }
+    }
+}
+public static void rotateMatrix(int matrix[][]){
+    int n = matrix.length;
+    for(int i = 0;i<n-1;i++){
+        for(int j = i+1;j<n;j++){
+            int temp = matrix[i][j];
+            matrix[i][j] = matrix[j][i];
+            matrix[j][i] = temp;
+        }
+    }
+    for(int i = 0;i<n;i++){
+        reverseArray(matrix[i],0,n-1);
+    }
+}
     public static void main(String[] args){
         int arr[] = {7,1,5,3,6,4};
         int k = 3;
         int x[] = ReaarangeArrays(arr);
-        // System.out.println(Arrays.toString(x));
-        for(int i = 0;i<x.length;i++){
-            System.out.print(x[i]+" ");
+        int matrix[][] =  {{1,1,1},{1,0,1},{1,1,1}};
+        setZeroes(matrix);
+        for(int i = 0;i<3;i++){
+            for(int j = 0;j<3;j++){
+                System.out.println(matrix[i][j]);
+            }
         }
         // SortArrayof012Inplace__Optimal(arr);
         // System.out.println();
