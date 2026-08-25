@@ -63,11 +63,12 @@ public static int SingleNumber(int nums[]){
     }
     return -1;
 }
-public int[] twoSum(int[] nums, int target) {
+public static int[] twoSum(int[] nums, int target) {
         HashMap<Integer,Integer>mpp = new HashMap<>();
         for(int i = 0;i<nums.length;i++){
 
             int comp = target-nums[i];
+            // comp+nums[i] = target
             if(mpp.containsKey(comp)){
                 return new int[]{mpp.get(comp),i};
             }
@@ -260,22 +261,39 @@ public static void rotateMatrix(int matrix[][]){
         reverseArray(matrix[i],0,n-1);
     }
 }
-    public static void main(String[] args){
-        int arr[] = {7,1,5,3,6,4};
-        int k = 3;
-        int x[] = ReaarangeArrays(arr);
-        int matrix[][] =  {{1,1,1},{1,0,1},{1,1,1}};
-        setZeroes(matrix);
-        for(int i = 0;i<3;i++){
-            for(int j = 0;j<3;j++){
-                System.out.println(matrix[i][j]);
-            }
+public static List<Integer> spiralOrder(int[][] matrix){
+    int n = matrix.length;
+    int m = matrix[0].length;
+    int left = 0,right = m-1;
+    int top = 0,bottom = n-1;
+    List<Integer> ans = new ArrayList<Integer>();
+    while(top<=bottom&&left<=right){
+        for(int i = left;i<=right;i++){
+            ans.add(matrix[left][i]);
         }
-        // SortArrayof012Inplace__Optimal(arr);
-        // System.out.println();
-        // for(int i = 0;i<arr.length;i++){
-        //     System.out.print(arr[i]+" ");
-        // }
-        
+        top++;
+        for(int i = top;i<=bottom;i++){
+            ans.add(matrix[i][right]);
+        }
+        right--;
+        if(top<=bottom)
+            for(int i = right;i>=left;i--){
+                ans.add(matrix[bottom][i]);
+            }
+            bottom--;
+
+        if(left<=right)
+            for(int i = bottom;i>=top;i--){
+                ans.add(matrix[i][left]);
+            }
+            left++;
+    }
+    return ans;
+}
+    public static void main(String[] args){
+        int arr[][] = {{1,2,3},{4,5,6},{7,8,9}};
+        int k = 4;
+        List<Integer> ans = spiralOrder(arr);
+        System.out.println(ans);
     }
 }
