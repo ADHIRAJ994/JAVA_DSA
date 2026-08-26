@@ -290,10 +290,39 @@ public static List<Integer> spiralOrder(int[][] matrix){
     }
     return ans;
 }
+public static List<Integer> generateRow(int row){ // LC:118
+    int ans = 1;
+    List<Integer> ansRow = new ArrayList<>();
+    ansRow.add(1);
+    for(int col = 1;col<row;col++){
+        ans = ans*(row-col);
+        ans = ans/(col);
+        ansRow.add(ans);
+    }
+    return ansRow;
+}
+public static List<List<Integer>> pascalTriangle(int N){ // LC:118
+    List<List<Integer>> ans = new ArrayList<>();
+    for(int i = 1;i<=N;i++){
+        ans.add(generateRow(i));
+    }
+    return ans;
+}
+public static List<Integer> getRow(int rowIndex) { // LC:119
+        long ans = 1;
+        List<Integer> ansRow = new ArrayList<>();
+        ansRow.add(1);
+        for(int i = 1;i<=rowIndex;i++){
+            ans = ans*(rowIndex-i+1);
+            ans = ans/i;
+            ansRow.add((int)ans);
+        }
+        return ansRow;
+}
     public static void main(String[] args){
         int arr[][] = {{1,2,3},{4,5,6},{7,8,9}};
         int k = 4;
-        List<Integer> ans = spiralOrder(arr);
+        List<List<Integer>> ans = pascalTriangle(6);
         System.out.println(ans);
     }
 }
