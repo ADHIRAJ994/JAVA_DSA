@@ -394,11 +394,162 @@ public static List<List<Integer>> fourSum(int nums[],int target){
     }
     return ans;
 }
+public static int LargestSubarrayWith0Sum(int arr[]){
+    HashMap<Integer,Integer> mpp = new HashMap<>();
+    int n = arr.length;
+    int max = 0;
+    int sum = 0;
+    for(int i = 0;i<n;i++){
+        sum+=arr[i];
+        if(sum==0){
+            max = i+1;
+        }else{
+            if(mpp.get(sum)!=null){
+                max = Math.max(max,i-mpp.get(sum));
+            }else{
+                mpp.put(sum,i);
+            }
+        }
+    }
+    return max;
+}
+public static int[][] merge(int[][] arr) {
+
+    int n = arr.length;
+
+    Arrays.sort(arr, (a, b) -> Integer.compare(a[0], b[0]));
+
+    List<int[]> ans = new ArrayList<>();
+
+    for (int i = 0; i < n; i++) {
+
+        if (ans.isEmpty() || arr[i][0] > ans.get(ans.size() - 1)[1]) {
+
+            ans.add(new int[]{arr[i][0], arr[i][1]});
+
+        } else {
+
+            ans.get(ans.size() - 1)[1] =
+                Math.max(ans.get(ans.size() - 1)[1], arr[i][1]);
+        }
+    }
+
+    return ans.toArray(new int[ans.size()][]);
+}
+public static void merge(int[] nums1, int m, int[] nums2, int n) {
+
+    int left = m - 1;
+    int right = 0;
+
+    while (left >= 0 && right < n) {
+
+        if (nums1[left] > nums2[right]) {
+            int temp = nums1[left];
+            nums1[left] = nums2[right];
+            nums2[right] = temp;
+
+            left--;
+            right++;
+        } else {
+            break;
+        }
+    }
+
+    // Sort both arrays
+    Arrays.sort(nums1, 0, m);
+    Arrays.sort(nums2);
+
+    // Put nums2 into the empty spaces of nums1
+    for (int i = 0; i < n; i++) {
+        nums1[m + i] = nums2[i];
+    }
+}
+public static int reversePairs(int[] nums) {
+    return mergeSort(nums, 0, nums.length - 1);
+}
+
+public static int mergeSort(int[] nums, int low, int high) {
+
+    if (low >= high) {
+        return 0;
+    }
+
+    int mid = low + (high - low) / 2;
+
+    int count = 0;
+
+    count += mergeSort(nums, low, mid);
+    count += mergeSort(nums, mid + 1, high);
+
+    // Count reverse pairs
+    int j = mid + 1;
+
+    for (int i = low; i <= mid; i++) {
+
+        while (j <= high && nums[i] > 2L * nums[j]) {
+            j++;
+        }
+
+        count += j - (mid + 1);
+    }
+
+    // Merge
+    merge(nums, low, mid, high);
+
+    return count;
+}
+
+public static void merge(int[] nums, int low, int mid, int high) {
+
+    int i = low;
+    int j = mid + 1;
+
+    int[] temp = new int[high - low + 1];
+    int k = 0;
+
+    while (i <= mid && j <= high) {
+
+        if (nums[i] <= nums[j]) {
+            temp[k++] = nums[i++];
+        } else {
+            temp[k++] = nums[j++];
+        }
+    }
+
+    while (i <= mid) {
+        temp[k++] = nums[i++];
+    }
+
+    while (j <= high) {
+        temp[k++] = nums[j++];
+    }
+
+    for (int x = 0; x < temp.length; x++) {
+        nums[low + x] = temp[x];
+    }
+}
+public static int maxProduct(int[] nums){
+    int pre = 1,suff=1;
+    int ans = Integer.MIN_VALUE;
+    int n = nums.length;
+    for(int i =0;i<n;i++){
+        if(pre==0)pre=1;
+        if(suff==0)suff=1;
+
+        pre = pre*nums[i];
+        suff  = suff*nums[n-i-1];
+        ans = Math.max(ans,Math.max(pre,suff));
+    }
+    return ans;
+}
     public static void main(String[] args){
         int arr[][] = {{1,2,3},{4,5,6},{7,8,9}};
-        int arr1[] = {1,4,2,3,2,0,-1};
+        int arr1[] = {1,3,-2,4};
+        int arr2[] = {5,7,6,9,8};
         int k = 4;
-        List<List<Integer>> ans = fourSum(arr1,k);
+        int m = 3;
+        int n = 3;
+        int ans = maxProduct(arr1);
         System.out.println(ans);
     }
 }
