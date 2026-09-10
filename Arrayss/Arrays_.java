@@ -290,7 +290,7 @@ public static List<Integer> spiralOrder(int[][] matrix){
     }
     return ans;
 }
-public static List<Integer> generateRow(int row){ // LC:118
+public static List<Integer> generateRow(int row){ // Helping Function in LC:118
     int ans = 1;
     List<Integer> ansRow = new ArrayList<>();
     ansRow.add(1);
@@ -542,36 +542,13 @@ public static int maxProduct(int[] nums){
     }
     return ans;
 }
-public static int searchInsert(int[] nums, int target) {
-
-    int left = 0;
-    int right = nums.length - 1;
-
-    while (left <= right) {
-
-        int mid = left + (right - left) / 2;
-
-        if (nums[mid] == target) {
-            return mid;
-        }
-        else if (nums[mid] < target) {
-            left = mid + 1;
-        }
-        else {
-            right = mid - 1;
-        }
-    }
-
-    return left;
-}
     public static void main(String[] args){
         int arr[][] = {{1,2,3},{4,5,6},{7,8,9}};
         int arr1[] = {1,3,-2,4};
-        int arr2[] = {5,7,6,9,8};
+        int arr2[] = {5,7,6,5,9,8,5};
         int k = 4;
         int m = 3;
         int n = 3;
-        int ans = maxProduct(arr1);
-        System.out.println(ans);
+        int ans = maxProduct(arr2);
     }
 }
