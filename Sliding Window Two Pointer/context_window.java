@@ -369,11 +369,67 @@ public static boolean isPalindrome(String s){
     }
     return true;
 }
+public static double findMaxAverage(int[] nums,int k){
+    int left = 0;
+    int right = k;
+    double currSum = 0;
+    for(int i = 0;i<k;i++){
+            currSum+=nums[i];
+        }
+    double finalSum = currSum;
+    while(right<nums.length){
+        currSum = currSum-nums[left]+nums[right];
+        left++;right++;
+        finalSum = Math.max(finalSum,currSum);
+    }
+    return finalSum/k;
+}
+public static int Max_profit(int[]nums){
+    int minPrice = nums[0];
+    int MaxProfit = 0;
+    for(int i = 1;i<nums.length;i++){
+        minPrice = Math.min(minPrice,nums[i]);
+        int profit = nums[i]-minPrice;
+        MaxProfit = Math.max(profit,MaxProfit);
+    }
+    return MaxProfit;
+}
+public static int MinWindowSum(int nums[],int target){
+    int left = 0;
+    int right = 0;
+    int minLength = Integer.MAX_VALUE;
+    int sum = 0;
+    for(right = 0;right<nums.length;right++){
+        sum+=nums[right];
+        while(sum>=target){
+            minLength = Math.min(minLength,right-left+1);
+            sum-=nums[left];
+            left++;
+        }
+    }
+    if(minLength==Integer.MAX_VALUE) return 0;
+    return minLength;
+}
+public static int lengthOfLongestSubstring(String s){
+   int left = 0;
+    int right = 0;
+    int MaxLength = 0;
+    Set<Character>set = new HashSet<>();
+    for(right = 0;right<s.length();right++){
+        while(set.contains(s.charAt(right))){
+        set.remove(s.charAt(left));
+        left++;
+        }
+        MaxLength = Math.max(MaxLength,right-left+1);
+        set.add(s.charAt(right));
+    }
+    return MaxLength;
+}
     public static void main(String[] args) {
-        int arr[] = {1,1,2};
-        String s = "ABAB";
+        int arr[] = {7,1,5,3,6,4};
+        String s = "abcabcbb";
         int k = 2;
-        boolean point = isPalindrome(s);
+        double point = lengthOfLongestSubstring(s);
         System.out.println(point);
     }
 }
