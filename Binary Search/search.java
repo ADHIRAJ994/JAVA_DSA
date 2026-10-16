@@ -150,6 +150,46 @@ public static int findMin(int nums[]){
     }
     return ans;
 }
+public static int singleNonDuplicate(int [] nums){
+    int left = 0;
+        int right = nums.length-1;
+
+        while(left<right){
+            int mid = left+(right-left)/2;
+
+            if(mid%2==1){
+                mid--;
+            }
+            if(nums[mid]==nums[mid+1]){
+                left = mid+2;
+            }else{
+                right=mid;
+            }
+        }
+        return nums[left];
+}
+public int minEatingSpeed(int[]piles,int h){
+    int left = 1;
+    int right = 0;
+
+    for(int pile:piles){
+        right = Math.max(right,pile);
+    }
+    while(left<right){
+        int mid = left+(right-left)/2;
+        int hours = 0;
+
+        for(int pile:piles){
+            hours+=(pile+mid-1)/mid;
+        }
+        if(hours<=h){
+            right=mid;
+        }else{
+            left=mid=1;
+        }
+    }
+    return left;
+}
     public static void main(String args[]){
         int arr[] = {4,5,6,7,0,1,2};
         int ans = findMin(arr);
