@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -270,7 +271,212 @@ public List<String> letterCombinations(String digits) {
 
         backtrack(digits,0,curr,res,digitToLetters);
         return res;
-    }    
+    }
+    
+public static List<List<String>> partition(String s){
+    List<List<String>> res = new ArrayList<>();
+    List<String>curr = new ArrayList<>();
+    func(0,s,curr,res);
+    return res;
+}
+public static void func(int index,String s,List<String>curr,List<List<String>> res){
+    if(index==s.length()){
+        res.add(new ArrayList<>(curr));
+        return;
+    }
+    for(int i=index;i<s.length();i++){
+        if(isPalin(s,index,i)){
+            curr.add(s.substring(index, i+1));
+            func(i+1,s,curr,res);
+            curr.remove(curr.size()-1);
+        }
+    }
+}
+public static boolean isPalin(String s,int start,int end){
+    while(start<=end){
+        if(s.charAt(start++)!=s.charAt(end--)){
+            return false;
+        }
+    }
+    return true;
+}
+
+    public static List<List<String>> solveNQueens(int n) {
+        List<List<String>> res = new ArrayList<>();
+        char[][] board = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(board[i], '.');
+        }
+        generate(board, 0,res);
+        return res;
+    }
+
+public static void generate(char[][] board, int row,List<List<String>> res) {
+        if (row == board.length) {
+            List<String> list = new ArrayList<>();
+            for (int i = 0; i < board.length; i++) {
+                list.add(new String(board[i]));
+            }
+            res.add(list);
+            return;
+        }
+        for (int col = 0; col < board[row].length; col++) {
+            if (isSafe(board, row, col)) {
+                board[row][col] = 'Q';
+                generate(board, row + 1,res);
+                board[row][col] = '.'; 
+            }
+        }
+    }
+public static boolean isSafe(char[][] board, int row, int col) {
+        //top row
+        for (int i = 0; i < row; i++) {
+            if (board[i][col] == 'Q') return false;
+        }
+        //left diagonal
+        // This approach is standard, you can remember this
+        int maxLeft=Math.min(row,col);
+        for(int i=1;i<=maxLeft;i++){
+            if(board[row-i][col-i]=='Q') return false;
+        }
+        int maxRight=Math.min(row,board.length-1-col);
+        for(int i=1;i<=maxRight;i++){
+            if(board[row-i][col+i]=='Q') return false;
+        }
+        return true;
+    }
+public static List<List<Integer>> combine(int n,int k){
+    List<List<Integer>> res = new ArrayList<>();
+    List<Integer>curr = new ArrayList<>();
+    helper(1,res,curr,n,k);
+    return res;
+}
+public static void helper(int start,List<List<Integer>> res,List<Integer>curr,int n,int k){
+    if(curr.size()==k){
+        res.add(new ArrayList<>(curr));
+        return;
+    }
+    for(int i = start;i<=n;i++){
+        curr.add(i);
+        helper(i+1, res, curr, n, k);
+        curr.remove(curr.size()-1);
+    }
+}
+// Rat in a Maze Problem - I
+
+// Consider a rat placed at (0, 0) in a square matrix of order N * N. It has to reach the destination at (N - 1, N
+// - 1). Find all possible paths that the rat can take to reach from source to destination. The directions in
+// which the rat can move are 'U'(up), 'D'(down), 'L' (left), 'R' (right). Value 0 at a cell in the matrix
+// represents that it is blocked and rat cannot move to it while value 1 at a cell in the matrix represents
+// that rat can be travel through it.
+// Note: In a path, no cell can be visited more tham one time.
+
+// Example 1:
+
+// Input:
+// N = 4
+// m[][] = 
+// {{1, 0, 0, 0},
+// {1, 1, 0, 1},
+// {1, 1, 0, 0},
+// {0,1,1, 1}}
+
+// Output:
+// DDRDRR DRDDRR
+
+public ArrayList<String> findPath(int[][] mat) {
+        ArrayList<String> ans = new ArrayList<>();
+        int n = mat.length;
+
+        if (n == 0 || mat[0][0] == 0 || mat[n - 1][n - 1] == 0) {
+            return ans;
+        }
+
+        boolean[][] visited = new boolean[n][n];
+        StringBuilder path = new StringBuilder();
+
+        // D, L, R, U gives lexicographical order
+        dfs(0, 0, mat, visited, path, ans, n);
+
+        return ans;
+    }
+
+public static void dfs(int r, int c, int[][] mat,
+                     boolean[][] visited, StringBuilder path,
+                     ArrayList<String> ans, int n) {
+
+        if (r == n - 1 && c == n - 1) {
+            ans.add(path.toString());
+            return;
+        }
+
+        visited[r][c] = true;
+
+        int[] dr = {1, 0, 0, -1};
+        int[] dc = {0, -1, 1, 0};
+        char[] dir = {'D', 'L', 'R', 'U'};
+
+        for (int i = 0; i < 4; i++) {
+            int nr = r + dr[i];
+            int nc = c + dc[i];
+
+            if (nr >= 0 && nr < n &&
+                nc >= 0 && nc < n &&
+                mat[nr][nc] == 1 &&
+                !visited[nr][nc]) {
+
+                path.append(dir[i]);
+
+                dfs(nr, nc, mat, visited, path, ans, n);
+
+                // Backtrack
+                path.deleteCharAt(path.length() - 1);
+            }
+        }
+
+        visited[r][c] = false;
+    }
+
+//Graph Coloring 
+// M-Coloring Problem
+
+// Given an undirected graph and an integer M. The task is to determine if the graph can be colored with at
+// most M colors such that no two adjacent vertices of the graph are colored with the same coldr. Here
+// coloring of a graph means the assignment of colors to all vertices. Print 1 if it is possible to colour
+// vertices and 0 otherwise.
+
+// Example 1:
+
+// Input:
+// N = 4
+// M = 3
+// E = 5
+// Edges[] = {(1,2),(2,3), (3,4), (4,1), (1,3)}
+// Output: 1
+
+// Submissions: 6921 Points: 4
+public static boolean isSafe(int node,List<Integer>[]G,int[]color,int n,int col){
+    for(int it:G[node]){
+        if(color[it]==col) return false;
+    }
+    return true;
+}
+public static boolean solve(int node,List<Integer>[]G,int[]color,int n,int m){
+    if(node==n) return true;
+    for(int i = 1;i<=m;i++){
+       if(isSafe(node, G, color, n, i)){
+            color[node] = i;
+            if(solve(node+1, G, color, n, m)==true)return true;
+            color[node] = 0;
+        }
+    }
+    return false;
+}
+public static boolean graphColoring(List<Integer>[]G,int[]color,int i,int m){
+    int n = G.length;
+    if(solve(0, G, color, n, m)==true) return true;
+    return false;
+}
     public static void main(String[] args) {
         int n = 5;
         int arr[] = {2,3,6,7};
@@ -280,7 +486,7 @@ public List<String> letterCombinations(String digits) {
         
         HashSet<String> set = new HashSet<>();
 
-        System.out.println(CombinationSum(arr,7));
+        System.out.println(combine(4,2));
 
     }
 }

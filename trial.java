@@ -269,8 +269,49 @@ public static int multiply(int m, int q) {
         long middle = abcd-ac-bd;
         return ac*power*power+middle*power+bd;
     }
+
+public static int firstOccurence(int[]arr,int low,int high,int x){
+    if(low>high) return -1;
+    int mid = low+(high-low)/2;
+    if(arr[mid]==x){
+         int first=firstOccurence(arr, low, mid-1, x);
+        return (first!=-1)?first:mid;
+    }else if(arr[mid]<x){
+        return firstOccurence(arr, mid+1, high, x);
+    }else{
+        return firstOccurence(arr, low,mid-1, x);
+    }
+}
+public static int lastOccurence(int[]arr,int low,int high,int x){
+    if(low>high) return -1;
+    int mid = low+(high-low)/2;
+    if(arr[mid]==x){
+        int last=lastOccurence(arr, mid+1, high, x);
+        return (last!=-1)?last:mid;
+    }else if(arr[mid]<x){
+        return lastOccurence(arr, mid+1, high, x);
+    }else{
+        return lastOccurence(arr, low,mid-1, x);
+    }
+}
     public static void main(String[] args){
-        int arr[] = {1,1,1,0,0,0,1,1,1,1,0};
-        System.out.println(multiply(3,5));
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr  = new int[n];
+        
+        for(int i = 0;i<n;i++){
+            arr[i] = sc.nextInt();
+        }
+        int x = sc.nextInt();
+        
+        int first = firstOccurence(arr,0,n-1,x);
+        int last = lastOccurence(arr,0,n-1,x);
+        
+        if(first==-1){
+            System.out.println("NO OCCURRENCES");
+        }else{
+            System.out.println(first+" "+last);
+        }
     }
 }
